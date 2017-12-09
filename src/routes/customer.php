@@ -65,7 +65,7 @@ $app->get('/api/customer/{id}', function(Request $request, Response $response){
                     "error_code" => 60008,
                     "message" => "Customer object not found"
                 ]
-            )
+            );
         return $response->withJson($result);
     } catch(Exception $e){
         $error = [
