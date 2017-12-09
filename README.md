@@ -1,6 +1,8 @@
 Sample Customer API With Slim and apiDoc
 ========================================
 
+[Link to api documentation](https://nenepadi.github.io/slimapp/)
+
 ##### API Documentation Generation
 Run the following command:    
 - `npm install -g apidoc`
