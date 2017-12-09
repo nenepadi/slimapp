@@ -2,6 +2,35 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
+/**
+ * @api {get} /api/customers List all customers
+ * @apiName GetCustomers
+ * @apiGroup Customer
+ * 
+ * @apiSuccess {Boolean} success Specifies whether response was favourable or not.
+ * @apiSuccess {Object[]} data All customer objects.
+ * @apiSuccess {String} data.first_name Customer first name.
+ * @apiSuccess {String} data.last_name Customer last name.
+ * @apiSuccess {String} data.phone Customer phone number.
+ * @apiSuccess {String} data.email Customer email address.
+ * 
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *         "success": true,
+ *         "data": [
+ *             {
+ *                 "id": "1",
+ *                 "first_name": "John",
+ *                 "last_name": "Doe",
+ *                 "phone": "233542964103",
+ *                 "email": "jdoe@gmail.com"
+ *             },
+ *             ...
+ *             ...
+ *         ]
+ *     }
+ */
 $app->get('/api/customers', function(Request $request, Response $response){
     try {
         $result = $this->db->select("SELECT * FROM customers");
@@ -25,11 +54,19 @@ $app->get('/api/customers', function(Request $request, Response $response){
 $app->get('/api/customer/{id}', function(Request $request, Response $response){
     $id = $request->getAttribute('id');
     try {
-        $result = $this->db->select("SELECT * FROM customers WHERE id = :id", array('id' => $id));
-        return $response->withJson(array(
-            "success" => true,
-            "data" => $result[0]
-        ));
+        $selectResult = $this->db->select("SELECT * FROM customers WHERE id = :id", array('id' => $id));
+        $result = ($selectResult === 1) ?
+            array(
+                "success" => true,
+                "data" => $result[0]
+            ) : array(
+                "success" => false,
+                "data" => [
+                    "error_code" => 60008,
+                    "message" => "Customer object not found"
+                ]
+            )
+        return $response->withJson($result);
     } catch(Exception $e){
         $error = [
             "success" => false,
