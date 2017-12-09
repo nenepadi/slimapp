@@ -1,5 +1,5 @@
 vendor
-!apidoc/vendor
+!docs/vendor
 logs/*
 !/logs/.gitkeep
 .env

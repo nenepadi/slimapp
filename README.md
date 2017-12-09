@@ -4,7 +4,7 @@ Sample Customer API With Slim and apiDoc
 ##### API Documentation Generation
 Run the following command:    
 - `npm install -g apidoc`
-- `apidoc -i src/routes -o apidoc/`
+- `apidoc -i src/routes -o docs/`
 
 #### Tasks
 - [x] Create simple CRUD api endpoints
@@ -12,4 +12,4 @@ Run the following command:
 - [x] Include definite logs with monolog
 - [ ] Add authentication (specifically api keys)
 - [ ] Complete api documentation
-- [ ] Host api documentation on ghpages
+- [x] Host api documentation on ghpages
