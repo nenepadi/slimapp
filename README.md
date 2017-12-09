@@ -9,7 +9,7 @@ Run the following command:
 #### Tasks
 - [x] Create simple CRUD api endpoints
 - [x] Hide configuration files using 12 factor-app specs
-- [ ] Include definite logs with monolog
+- [x] Include definite logs with monolog
 - [ ] Add authentication (specifically api keys)
 - [ ] Complete api documentation
 - [ ] Host api documentation on ghpages

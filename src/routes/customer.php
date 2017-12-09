@@ -33,12 +33,23 @@ use \Psr\Http\Message\ResponseInterface as Response;
  */
 $app->get('/api/customers', function(Request $request, Response $response){
     try {
-        $result = $this->db->select("SELECT * FROM customers");
-        return $response->withJson(array(
-            "success" => true,
-            "data" => $result
-        ));
+        $this->logger->info("'/api/customers' route visted");
+        $selectResult = $this->db->select("SELECT * FROM customers");
+        $result = (count($selectResult) > 0) ? 
+            array(
+                "success" => true,
+                "data" => $selectResult
+            ) : array(
+                "success" => false,
+                "data" => [
+                    "error_code" => 60008,
+                    "message" => "Customer resource is empty"
+                ]
+            );
+
+        return $response->withJson($result);
     } catch(Exception $e){
+        $this->logger->error($e->getMessage);
         $error = [
             "success" => false,
             "data" => [
@@ -55,7 +66,7 @@ $app->get('/api/customer/{id}', function(Request $request, Response $response){
     $id = $request->getAttribute('id');
     try {
         $selectResult = $this->db->select("SELECT * FROM customers WHERE id = :id", array('id' => $id));
-        $result = ($selectResult === 1) ?
+        $result = (count($selectResult) === 1) ?
             array(
                 "success" => true,
                 "data" => $result[0]
@@ -68,6 +79,7 @@ $app->get('/api/customer/{id}', function(Request $request, Response $response){
             );
         return $response->withJson($result);
     } catch(Exception $e){
+        $this->logger->error($e->getMessage);
         $error = [
             "success" => false,
             "data" => [
